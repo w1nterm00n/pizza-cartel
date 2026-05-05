@@ -14,8 +14,14 @@ const cartSlice = createSlice({
         state.push(action.payload);
       }
     },
+    pizzaDeleted(state, action) {
+      let index = state.findIndex((item) => item.pizzaId === action.payload);
+      if (index !== -1) {
+        state.splice(index, 1);
+      }
+    },
   },
 });
 
-export const { pizzaAdded } = cartSlice.actions;
+export const { pizzaAdded, pizzaDeleted } = cartSlice.actions;
 export default cartSlice.reducer;

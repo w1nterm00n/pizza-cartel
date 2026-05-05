@@ -1,17 +1,21 @@
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import './CartList.css';
+import { pizzaDeleted } from './cartSlice';
 
 export const CartList = () => {
   const items = useSelector((state) => state.cart);
   const pizzas = useSelector((state) => state.pizzas);
+  const dispatch = useDispatch();
   const deletePizza = (id) => {
-    //delete logic
+    dispatch(pizzaDeleted(id)); //pizzaId
   };
 
   const itemsFullData = items.map((item) => {
     const pizza = pizzas.find((p) => p.id === item.pizzaId);
     return { ...pizza, amount: item.amount };
   });
+
+  console.log(itemsFullData);
 
   return (
     <section>
