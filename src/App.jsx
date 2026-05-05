@@ -1,46 +1,20 @@
-import { useSelector, useDispatch } from 'react-redux';
-import { increment, decrement, reset } from './features/counter/counterSlice';
-import './App.css';
-import { changeTheme } from './features/theme/themeSlice';
+import { Routes, Route } from 'react-router-dom';
+import { Navbar } from './components/Navbar';
+import { MenuPage } from './pages/MenuPage';
+import { CartPage } from './pages/CartPage';
+import { OrdersPage } from './pages/OrdersPage';
+import { PizzaPage } from './pages/PizzaPage';
 
 function App() {
-  const count = useSelector((state) => state.counter.value);
-  const theme = useSelector((state) => state.theme.value);
-  const dispatch = useDispatch();
-
   return (
     <>
-      <section id="center">
-        <button
-          type="button"
-          className="counter"
-          onClick={() => dispatch(decrement())}
-        >
-          −
-        </button>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => dispatch(reset())}
-        >
-          Count is {count}
-        </button>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => dispatch(increment())}
-        >
-          +
-        </button>
-        Theme is {theme}
-        <button
-          type="button"
-          className="theme"
-          onClick={() => dispatch(changeTheme())}
-        >
-          CHANGE THEME
-        </button>
-      </section>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<MenuPage />} />
+        <Route path="/cart" element={<CartPage />} />
+        <Route path="/orders" element={<OrdersPage />} />
+        <Route path="/pizza/:id" element={<PizzaPage />} />
+      </Routes>
     </>
   );
 }
