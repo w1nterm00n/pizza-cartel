@@ -32,9 +32,17 @@ const cartSlice = createSlice({
         state.splice(index, 1);
       }
     },
+    cartCleared(state) {
+      state.splice(0);
+    },
   },
 });
 
-export const { pizzaAdded, pizzaDeleted, pizzaDecrease, pizzaIncrease } =
-  cartSlice.actions;
+export const {
+  pizzaAdded,
+  pizzaDeleted,
+  pizzaDecrease,
+  pizzaIncrease,
+  cartCleared,
+} = cartSlice.actions;
 export default cartSlice.reducer;

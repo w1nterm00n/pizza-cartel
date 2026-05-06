@@ -1,6 +1,11 @@
 import { useDispatch, useSelector } from 'react-redux';
 import './CartList.css';
-import { pizzaDeleted, pizzaDecrease, pizzaIncrease } from './cartSlice';
+import {
+  pizzaDeleted,
+  pizzaDecrease,
+  pizzaIncrease,
+  cartCleared,
+} from './cartSlice';
 
 export const CartList = () => {
   const items = useSelector((state) => state.cart);
@@ -15,11 +20,19 @@ export const CartList = () => {
   const decreasePizza = (id) => {
     dispatch(pizzaDecrease(id));
   };
+  const clearCart = () => {
+    dispatch(cartCleared());
+  };
 
   const itemsFullData = items.map((item) => {
     const pizza = pizzas.find((p) => p.id === item.pizzaId);
     return { ...pizza, amount: item.amount, id: item.id, pizzaId: pizza.id };
   });
+
+  const totalPrice = itemsFullData.reduce(
+    (sum, item) => sum + item.price * item.amount,
+    0,
+  );
 
   return (
     <section>
@@ -79,6 +92,12 @@ export const CartList = () => {
           </li>
         ))}
       </ul>
+
+      <span>Total price: {totalPrice}</span>
+
+      <button type="button" onClick={() => clearCart()}>
+        ОЧИСТИТЬ КОРЗИНУ 🗑
+      </button>
     </section>
   );
 };
