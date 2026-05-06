@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import './CartList.css';
-import { pizzaDeleted } from './cartSlice';
+import { pizzaDeleted, pizzaDecrease, pizzaIncrease } from './cartSlice';
 
 export const CartList = () => {
   const items = useSelector((state) => state.cart);
@@ -9,13 +9,17 @@ export const CartList = () => {
   const deletePizza = (id) => {
     dispatch(pizzaDeleted(id)); //pizzaId
   };
+  const increasePizza = (id) => {
+    dispatch(pizzaIncrease(id));
+  };
+  const decreasePizza = (id) => {
+    dispatch(pizzaDecrease(id));
+  };
 
   const itemsFullData = items.map((item) => {
     const pizza = pizzas.find((p) => p.id === item.pizzaId);
-    return { ...pizza, amount: item.amount };
+    return { ...pizza, amount: item.amount, id: item.id, pizzaId: pizza.id };
   });
-
-  console.log(itemsFullData);
 
   return (
     <section>
@@ -44,11 +48,19 @@ export const CartList = () => {
               <span className="cart-item__price">${pizza.price}</span>
               <div className="cart-item__divider" />
               <div className="cart-item__qty">
-                <button type="button" className="cart-item__qty-btn">
+                <button
+                  type="button"
+                  onClick={() => decreasePizza(pizza.id)}
+                  className="cart-item__qty-btn"
+                >
                   −
                 </button>
                 <span className="cart-item__qty-count">{pizza.amount}</span>
-                <button type="button" className="cart-item__qty-btn">
+                <button
+                  type="button"
+                  onClick={() => increasePizza(pizza.id)}
+                  className="cart-item__qty-btn"
+                >
                   +
                 </button>
               </div>
@@ -58,7 +70,7 @@ export const CartList = () => {
               </span>
               <button
                 type="button"
-                onClick={() => deletePizza(pizza.id)}
+                onClick={() => deletePizza(pizza.pizzaId)}
                 className="cart-item__delete"
               >
                 🗑

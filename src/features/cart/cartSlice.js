@@ -20,8 +20,21 @@ const cartSlice = createSlice({
         state.splice(index, 1);
       }
     },
+    pizzaIncrease(state, action) {
+      let pizza = state.find((item) => item.id === action.payload);
+      pizza.amount++;
+    },
+    pizzaDecrease(state, action) {
+      let index = state.findIndex((item) => item.id === action.payload);
+      if (state[index].amount > 1) {
+        state[index].amount--;
+      } else {
+        state.splice(index, 1);
+      }
+    },
   },
 });
 
-export const { pizzaAdded, pizzaDeleted } = cartSlice.actions;
+export const { pizzaAdded, pizzaDeleted, pizzaDecrease, pizzaIncrease } =
+  cartSlice.actions;
 export default cartSlice.reducer;
