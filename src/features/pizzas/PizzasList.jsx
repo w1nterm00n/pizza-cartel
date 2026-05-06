@@ -2,6 +2,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import './PizzasList.css';
 import { pizzaAdded } from '../cart/cartSlice';
 import { nanoid } from '@reduxjs/toolkit';
+import { Link } from 'react-router-dom';
 
 export const PizzasList = () => {
   const pizzas = useSelector((state) => state.pizzas);
@@ -30,6 +31,7 @@ export const PizzasList = () => {
               <div className="pizza-card__body">
                 <span className="pizza-card__badge">{pizza.category}</span>
                 <h3>{pizza.name}</h3>
+                <Link to={`/pizza/${pizza.id}`}>{pizza.name}</Link>
                 <p className="pizza-card__description">{pizza.description}</p>
               </div>
               <hr className="pizza-card__divider" />

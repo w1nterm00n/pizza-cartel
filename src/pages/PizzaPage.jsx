@@ -1,3 +1,9 @@
+import { PizzaCard } from '../features/pizzas/PizzaCard';
+
 export const PizzaPage = () => {
-  return <div>страничка для одной пиццы</div>;
+  return (
+    <div>
+      <PizzaCard />
+    </div>
+  );
 };
