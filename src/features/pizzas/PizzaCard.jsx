@@ -1,6 +1,7 @@
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import './PizzaCard.css';
+import { usePizzaDetailQuery } from '../../app/api';
 
 const STUB_SIZES = [
   { label: '25 см', hint: '' },
@@ -18,13 +19,18 @@ const STUB_TOPPINGS = [
 
 export const PizzaCard = () => {
   const { id } = useParams();
-  const pizza = useSelector((state) =>
-    state.pizzas.find((pizza) => pizza.id === id),
-  );
-
-  if (!pizza) return <h1>No pizza found</h1>;
 
   const activeSize = STUB_SIZES.find((s) => s.active);
+
+  const {
+    data: pizza,
+    isLoading,
+    isError,
+    isSuccess,
+  } = usePizzaDetailQuery({ id: id });
+  if (isLoading) return <p>Загрузка...</p>;
+  if (isError) return <p>Ошибка загрузки пицц</p>;
+  if (!pizza) return <h1>No pizza found</h1>;
 
   return (
     <div className="pizza-card">
