@@ -1,24 +1,11 @@
-import { useSelector, useDispatch } from 'react-redux';
 import './PizzasList.css';
-import { pizzaAdded } from '../cart/cartSlice';
-import { nanoid } from '@reduxjs/toolkit';
 import { Link } from 'react-router-dom';
 import { usePizzaListQuery } from '../../app/api';
+import { useAddToCard } from '../cart/useAddToCart';
 
 export const PizzasList = () => {
-  //const pizzas = useSelector((state) => state.pizzas);
-  // const dispatch = useDispatch();
-  // const addPizza = (id) => {
-  //   const newPizza = {
-  //     id: nanoid(),
-  //     pizzaId: id,
-  //     amount: 1,
-  //   };
-  //   dispatch(pizzaAdded(newPizza));
-  // };
-
+  const addToCart = useAddToCard();
   const { data: pizzas, isLoading, isError, isSuccess } = usePizzaListQuery();
-
   if (isLoading) return <p>Загрузка...</p>;
   if (isError) return <p>Ошибка загрузки пицц</p>;
 
@@ -43,14 +30,11 @@ export const PizzasList = () => {
                 </div>
                 <hr className="pizza-card__divider" />
                 <p className="pizza-card__price">${pizza.price}</p>
-                {/* <button
-                type="button"
-                className="pizza-card__button"
-                onClick={() => addPizza(pizza.id)}
-              >
-                Добавить в корзину
-              </button> */}
-                <button type="button" className="pizza-card__button">
+                <button
+                  type="button"
+                  className="pizza-card__button"
+                  onClick={() => addToCart(pizza)}
+                >
                   Добавить в корзину
                 </button>
               </article>

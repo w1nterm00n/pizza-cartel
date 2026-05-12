@@ -6,10 +6,8 @@ import {
   pizzaIncrease,
   cartCleared,
 } from './cartSlice';
-
 export const CartList = () => {
-  const items = useSelector((state) => state.cart);
-  const pizzas = useSelector((state) => state.pizzas);
+  const pizzas = useSelector((state) => state.cart);
   const dispatch = useDispatch();
   const deletePizza = (id) => {
     dispatch(pizzaDeleted(id)); //pizzaId
@@ -24,21 +22,11 @@ export const CartList = () => {
     dispatch(cartCleared());
   };
 
-  const itemsFullData = items.map((item) => {
-    const pizza = pizzas.find((p) => p.id === item.pizzaId);
-    return { ...pizza, amount: item.amount, id: item.id, pizzaId: pizza.id };
-  });
-
-  const totalPrice = itemsFullData.reduce(
-    (sum, item) => sum + item.price * item.amount,
-    0,
-  );
-
   return (
     <section>
       <h2>Содержимое корзины</h2>
       <ul className="cart-list">
-        {itemsFullData.map((pizza) => (
+        {pizzas.map((pizza) => (
           <li key={pizza.id}>
             <article className="cart-item">
               <img
@@ -93,7 +81,7 @@ export const CartList = () => {
         ))}
       </ul>
 
-      <span>Total price: {totalPrice}</span>
+      {/* <span>Total price: {totalPrice}</span> */}
 
       <button type="button" onClick={() => clearCart()}>
         ОЧИСТИТЬ КОРЗИНУ 🗑

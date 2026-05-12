@@ -1,7 +1,7 @@
-import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import './PizzaCard.css';
 import { usePizzaDetailQuery } from '../../app/api';
+import { useAddToCard } from '../cart/useAddToCart';
 
 const STUB_SIZES = [
   { label: '25 см', hint: '' },
@@ -19,15 +19,10 @@ const STUB_TOPPINGS = [
 
 export const PizzaCard = () => {
   const { id } = useParams();
-
+  const addToCart = useAddToCard();
   const activeSize = STUB_SIZES.find((s) => s.active);
 
-  const {
-    data: pizza,
-    isLoading,
-    isError,
-    isSuccess,
-  } = usePizzaDetailQuery({ id: id });
+  const { data: pizza, isLoading, isError } = usePizzaDetailQuery({ id: id });
   if (isLoading) return <p>Загрузка...</p>;
   if (isError) return <p>Ошибка загрузки пицц</p>;
   if (!pizza) return <h1>No pizza found</h1>;
@@ -50,7 +45,11 @@ export const PizzaCard = () => {
               +
             </button>
           </div>
-          <button type="button" className="pizza-card__add-btn">
+          <button
+            type="button"
+            className="pizza-card__add-btn"
+            onClick={() => addToCart(pizza)}
+          >
             Добавить в корзину
           </button>
         </div>
