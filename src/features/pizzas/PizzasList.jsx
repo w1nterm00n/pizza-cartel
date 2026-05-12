@@ -10,8 +10,19 @@ export const PizzasList = () => {
   const cart = useSelector((state) => state.cart);
   const { data: pizzas, isLoading, isError, isSuccess } = usePizzaListQuery();
   const dispatch = useDispatch();
-  const increasePizza = (id) => {
-    dispatch(pizzaIncrease(id));
+  const increasePizza = (id, ingredients) => {
+    dispatch(
+      pizzaIncrease({
+        id: id,
+        options: [
+          {
+            size: 'standart',
+            ingredients: ingredients,
+            dops: [],
+          },
+        ],
+      }),
+    );
   };
   const decreasePizza = (id) => {
     dispatch(pizzaDecrease(id));
@@ -59,7 +70,9 @@ export const PizzasList = () => {
                       <button
                         type="button"
                         className="pizza-card__qty-btn"
-                        onClick={() => increasePizza(pizza.id)}
+                        onClick={() =>
+                          increasePizza(pizza.id, pizza.ingredients)
+                        }
                       >
                         +
                       </button>

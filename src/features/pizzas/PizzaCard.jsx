@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import './PizzaCard.css';
 import { usePizzaDetailQuery } from '../../app/api';
@@ -6,26 +7,41 @@ import { pizzaDecrease, pizzaIncrease } from '../cart/cartSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
 const STUB_SIZES = [
-  { label: '25 см', hint: '' },
-  { label: '30 см', hint: '30 см — оптимально для 2–3 человек', active: true },
-  { label: '35 см', hint: '' },
+  { label: '25 см', hint: '', value: 'mini' },
+  {
+    label: '30 см',
+    hint: '30 см — оптимально для 2–3 человек',
+    value: 'standart',
+  },
+  { label: '35 см', hint: '', value: 'max' },
 ];
 
 const STUB_TOPPINGS = [
-  { id: 1, icon: '🧀', name: 'Доп. сыр', amount: 1, price: 1.5 },
-  { id: 2, icon: '🌶', name: 'Халапеньо', amount: 1, price: 1.0 },
-  { id: 3, icon: '🍖', name: 'Салями', amount: 1, price: 1.5 },
+  { id: 1, icon: '🧀', name: 'Доп. сыр', amount: 0, price: 1.5 },
+  { id: 2, icon: '🌶', name: 'Халапеньо', amount: 0, price: 1.0 },
+  { id: 3, icon: '🍖', name: 'Салями', amount: 0, price: 1.5 },
   { id: 4, icon: '🧅', name: 'Лук', amount: 0, price: 0.5 },
-  { id: 5, icon: '🌶', name: 'Чили', amount: 1, price: 0.75 },
+  { id: 5, icon: '🌶', name: 'Чили', amount: 0, price: 0.75 },
 ];
 
 export const PizzaCard = () => {
   const { id } = useParams();
   const addToCart = useAddToCard();
-  const activeSize = STUB_SIZES.find((s) => s.active);
+  const [activeSize, setActiveSize] = useState('standart');
   const dispatch = useDispatch();
   const increasePizza = (id) => {
-    dispatch(pizzaIncrease(id));
+    dispatch(
+      pizzaIncrease({
+        id: id,
+        options: [
+          {
+            size: activeSize,
+            ingredients: pizza.ingredients,
+            dops: [],
+          },
+        ],
+      }),
+    );
   };
   const decreasePizza = (id) => {
     dispatch(pizzaDecrease(id));
@@ -69,7 +85,7 @@ export const PizzaCard = () => {
           <button
             type="button"
             className="pizza-card__add-btn"
-            onClick={() => addToCart(pizza)}
+            onClick={() => addToCart(pizza, activeSize)}
           >
             Добавить в корзину
           </button>
@@ -100,7 +116,9 @@ export const PizzaCard = () => {
             <button
               key={size.label}
               type="button"
-              className={`pizza-card__size-btn${size.active ? ' pizza-card__size-btn--active' : ''}`}
+              value={size.value}
+              onClick={() => setActiveSize(size.value)}
+              className={`pizza-card__size-btn${size.value == activeSize ? ' pizza-card__size-btn--active' : ''}`}
             >
               {size.label}
             </button>

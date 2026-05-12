@@ -8,12 +8,24 @@ import {
 } from './cartSlice';
 export const CartList = () => {
   const pizzas = useSelector((state) => state.cart);
+  console.log(pizzas); //
   const dispatch = useDispatch();
   const deletePizza = (id) => {
     dispatch(pizzaDeleted(id)); //pizzaId
   };
-  const increasePizza = (id) => {
-    dispatch(pizzaIncrease(id));
+  const increasePizza = (id, ingredients) => {
+    dispatch(
+      pizzaIncrease({
+        id: id,
+        options: [
+          {
+            size: 'standart',
+            ingredients: ingredients,
+            dops: [],
+          },
+        ],
+      }),
+    );
   };
   const decreasePizza = (id) => {
     dispatch(pizzaDecrease(id));
@@ -41,9 +53,19 @@ export const CartList = () => {
               </div>
               <div className="cart-item__divider" />
               <div className="cart-item__details">
-                <span>Без изменений</span>
-                <span className="cart-item__details-dough">Без изменений</span>
-                <span className="cart-item__details-mods">Без изменений</span>
+                {pizza.options.map((option) => (
+                  <div key={option.size} className="cart-item__option">
+                    <span className="cart-item__details-size">
+                      {option.size}
+                    </span>
+                    <span className="cart-item__details-dough">
+                      Без изменений
+                    </span>
+                    <span className="cart-item__details-mods">
+                      Без изменений
+                    </span>
+                  </div>
+                ))}
               </div>
               <div className="cart-item__divider" />
               <span className="cart-item__price">${pizza.price}</span>
@@ -59,7 +81,9 @@ export const CartList = () => {
                 <span className="cart-item__qty-count">{pizza.amount}</span>
                 <button
                   type="button"
-                  onClick={() => increasePizza(pizza.pizzaId)}
+                  onClick={() =>
+                    increasePizza(pizza.pizzaId, pizza.ingredients)
+                  }
                   className="cart-item__qty-btn"
                 >
                   +

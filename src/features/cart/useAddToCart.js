@@ -4,7 +4,7 @@ import { nanoid } from '@reduxjs/toolkit';
 
 export const useAddToCard = () => {
   const dispatch = useDispatch();
-  return (pizza) =>
+  return (pizza, size = 'standart') =>
     dispatch(
       pizzaAdded({
         id: nanoid(),
@@ -15,6 +15,13 @@ export const useAddToCard = () => {
         imageUrl: pizza.imageUrl,
         category: pizza.category,
         description: pizza.description,
+        options: [
+          {
+            size,
+            ingredients: pizza.ingredients,
+            dops: [],
+          },
+        ],
       }),
     );
 };

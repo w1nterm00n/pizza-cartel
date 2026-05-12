@@ -10,6 +10,7 @@ const cartSlice = createSlice({
       );
       if (existing) {
         existing.amount++;
+        existing.options.push(action.payload.options[0]);
       } else {
         state.push(action.payload);
       }
@@ -21,13 +22,19 @@ const cartSlice = createSlice({
       }
     },
     pizzaIncrease(state, action) {
-      let pizza = state.find((item) => item.pizzaId === action.payload);
-      pizza.amount++;
+      //если передан размер - его, если не передан - стандарт
+      let existing = state.find((item) => item.pizzaId === action.payload.id);
+      console.log(existing);
+      existing.amount++;
+      existing.options.push(action.payload.options[0]);
     },
     pizzaDecrease(state, action) {
+      //просто удаляем самый последний
       let index = state.findIndex((item) => item.pizzaId === action.payload);
       if (state[index].amount > 1) {
+        //если больше одного
         state[index].amount--;
+        state[index].options.pop();
       } else {
         state.splice(index, 1);
       }
