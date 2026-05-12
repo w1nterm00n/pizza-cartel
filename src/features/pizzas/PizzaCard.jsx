@@ -2,6 +2,8 @@ import { useParams } from 'react-router-dom';
 import './PizzaCard.css';
 import { usePizzaDetailQuery } from '../../app/api';
 import { useAddToCard } from '../cart/useAddToCart';
+import { pizzaDecrease, pizzaIncrease } from '../cart/cartSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
 const STUB_SIZES = [
   { label: '25 см', hint: '' },
@@ -21,6 +23,15 @@ export const PizzaCard = () => {
   const { id } = useParams();
   const addToCart = useAddToCard();
   const activeSize = STUB_SIZES.find((s) => s.active);
+  const dispatch = useDispatch();
+  const increasePizza = (id) => {
+    dispatch(pizzaIncrease(id));
+  };
+  const decreasePizza = (id) => {
+    dispatch(pizzaDecrease(id));
+  };
+  const cart = useSelector((state) => state.cart);
+  const pizzaItem = cart.find((item) => item.pizzaId == id);
 
   const { data: pizza, isLoading, isError } = usePizzaDetailQuery({ id: id });
   if (isLoading) return <p>Загрузка...</p>;
@@ -37,11 +48,21 @@ export const PizzaCard = () => {
         <div className="pizza-card__actions">
           <span className="pizza-card__qty-label">Количество</span>
           <div className="pizza-card__qty">
-            <button type="button" className="pizza-card__qty-btn">
+            <button
+              type="button"
+              className="pizza-card__qty-btn"
+              onClick={() => decreasePizza(pizza.id)}
+            >
               −
             </button>
-            <span className="pizza-card__qty-count">1</span>
-            <button type="button" className="pizza-card__qty-btn">
+            <span className="pizza-card__qty-count">
+              {pizzaItem ? pizzaItem.amount : '0'}
+            </span>
+            <button
+              type="button"
+              className="pizza-card__qty-btn"
+              onClick={() => increasePizza(pizza.id)}
+            >
               +
             </button>
           </div>

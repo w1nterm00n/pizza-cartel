@@ -21,11 +21,11 @@ const cartSlice = createSlice({
       }
     },
     pizzaIncrease(state, action) {
-      let pizza = state.find((item) => item.id === action.payload);
+      let pizza = state.find((item) => item.pizzaId === action.payload);
       pizza.amount++;
     },
     pizzaDecrease(state, action) {
-      let index = state.findIndex((item) => item.id === action.payload);
+      let index = state.findIndex((item) => item.pizzaId === action.payload);
       if (state[index].amount > 1) {
         state[index].amount--;
       } else {

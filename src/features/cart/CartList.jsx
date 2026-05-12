@@ -51,7 +51,7 @@ export const CartList = () => {
               <div className="cart-item__qty">
                 <button
                   type="button"
-                  onClick={() => decreasePizza(pizza.id)}
+                  onClick={() => decreasePizza(pizza.pizzaId)}
                   className="cart-item__qty-btn"
                 >
                   −
@@ -59,7 +59,7 @@ export const CartList = () => {
                 <span className="cart-item__qty-count">{pizza.amount}</span>
                 <button
                   type="button"
-                  onClick={() => increasePizza(pizza.id)}
+                  onClick={() => increasePizza(pizza.pizzaId)}
                   className="cart-item__qty-btn"
                 >
                   +
