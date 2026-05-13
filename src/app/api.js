@@ -16,8 +16,23 @@ const api = createApi({
         return `pizzas/${id}/`;
       },
     }),
+    toppingList: build.query({
+      query() {
+        return 'toppings';
+      },
+    }),
+    toppingDetail: build.query({
+      query({ id }) {
+        return `toppings/${id}/`;
+      },
+    }),
   }),
 });
 
-export const { usePizzaListQuery, usePizzaDetailQuery } = api;
+export const {
+  usePizzaListQuery,
+  usePizzaDetailQuery,
+  useToppingListQuery,
+  useToppingDetailQuery,
+} = api;
 export { api };

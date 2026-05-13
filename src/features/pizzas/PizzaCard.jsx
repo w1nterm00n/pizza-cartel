@@ -25,7 +25,13 @@ export const PizzaCard = () => {
   const [activeSize, setActiveSize] = useState('standart');
   const increasePizza = usePizzaIncrease();
   const dispatch = useDispatch();
-
+  const [toppings, setToppings] = useState([
+    { id: 1, amount: 0 },
+    { id: 2, amount: 0 },
+    { id: 3, amount: 0 },
+    { id: 4, amount: 0 },
+    { id: 5, amount: 0 },
+  ]);
   const decreasePizza = (id) => {
     dispatch(pizzaDecrease(id));
   };
@@ -63,7 +69,7 @@ export const PizzaCard = () => {
             <button
               type="button"
               className="pizza-card__qty-btn"
-              onClick={() => increasePizza(pizza, activeSize)}
+              onClick={() => increasePizza(pizza, activeSize, toppings)}
             >
               +
             </button>
@@ -71,7 +77,7 @@ export const PizzaCard = () => {
           <button
             type="button"
             className="pizza-card__add-btn"
-            onClick={() => addToCart(pizza, activeSize)}
+            onClick={() => addToCart(pizza, activeSize, toppings)}
           >
             Добавить в корзину
           </button>
@@ -112,7 +118,7 @@ export const PizzaCard = () => {
         </div>
         <p className="pizza-card__size-hint">{activeSize.hint}</p>
         <hr className="pizza-card__panel-divider" />
-        <PizzaToppings />
+        <PizzaToppings toppings={toppings} setToppings={setToppings} />
       </div>
     </div>
   );

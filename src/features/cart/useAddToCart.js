@@ -5,7 +5,7 @@ import { getPrice } from '../../utils/pizzaPrice';
 
 export const useAddToCard = () => {
   const dispatch = useDispatch();
-  return (pizza, size = 'standart') =>
+  return (pizza, size = 'standart', toppings = []) =>
     dispatch(
       pizzaAdded({
         id: nanoid(),
@@ -21,7 +21,7 @@ export const useAddToCard = () => {
             size,
             price: getPrice(pizza.price, size),
             ingredients: pizza.ingredients,
-            toppings: [],
+            toppings,
           },
         ],
       }),
