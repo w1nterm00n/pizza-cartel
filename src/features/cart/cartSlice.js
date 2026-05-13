@@ -22,12 +22,11 @@ const cartSlice = createSlice({
       }
     },
     pizzaIncrease(state, action) {
-      let existing = state.find((item) => item.pizzaId === action.payload.id);
-      console.log(existing);
+      let existing = state.find((item) => item.pizzaId == action.payload.id);
       existing.amount++;
-      //если его размер стандарт - оставляем цену, если мини - уменьшаем на 20%, макси - увеличиваем на 20%
       existing.options.push(action.payload.options[0]);
     },
+
     pizzaDecrease(state, action) {
       //просто удаляем самый последний
       let index = state.findIndex((item) => item.pizzaId === action.payload);

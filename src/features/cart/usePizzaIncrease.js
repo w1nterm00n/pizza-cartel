@@ -7,7 +7,8 @@ export const usePizzaIncrease = () => {
   return (pizza, size = 'standart', toppings = []) =>
     dispatch(
       pizzaIncrease({
-        id: pizza.id,
+        id: pizza.pizzaId ?? pizza.id,
+        amount: pizza.amount,
         options: [
           {
             size,

@@ -54,7 +54,7 @@ export const CartItem = ({ pizza }) => {
           <span className="cart-item__qty-count">{pizza.amount}</span>
           <button
             type="button"
-            onClick={() => increasePizza(pizza.pizzaId)}
+            onClick={() => increasePizza(pizza)}
             className="cart-item__qty-btn"
           >
             +
