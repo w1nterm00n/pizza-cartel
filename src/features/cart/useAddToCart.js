@@ -19,7 +19,7 @@ export const useAddToCard = () => {
         options: [
           {
             size,
-            price: getPrice(pizza.price, size),
+            price: getPrice(pizza.price, size, toppings),
             ingredients: pizza.ingredients,
             toppings,
           },

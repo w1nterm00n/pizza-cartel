@@ -15,6 +15,7 @@ export const CartToppings = ({ toppings }) => {
         name: apiTopping.name,
         icon: apiTopping.icon,
         amount: item.amount,
+        price: apiTopping.price,
       };
     });
 
@@ -26,7 +27,8 @@ export const CartToppings = ({ toppings }) => {
       <ul>
         {toppingsArr.map((topping) => (
           <li key={topping.id}>
-            {topping.icon} {topping.name}: {topping.amount}
+            {topping.icon} {topping.name}: {topping.amount} +{' '}
+            {topping.amount * topping.price}$
           </li>
         ))}
       </ul>

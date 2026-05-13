@@ -3,16 +3,24 @@ import { useToppingListQuery } from '../../app/api';
 export const PizzaToppings = ({ toppings, setToppings }) => {
   const { data: API_TOPPINGS, isLoading, isError } = useToppingListQuery();
 
-  const increaseTopping = (id) => {
+  const increaseTopping = (id, toppingPrice) => {
     setToppings(
-      toppings.map((t) => (t.id === id ? { ...t, amount: t.amount + 1 } : t)),
+      toppings.map((t) =>
+        t.id === id
+          ? { ...t, amount: t.amount + 1, price: t.price + toppingPrice }
+          : t,
+      ),
     );
   };
-  const decreaseTopping = (id) => {
+  const decreaseTopping = (id, toppingPrice) => {
     const topping = toppings.find((item) => item.id === id);
     if (topping.amount > 0) {
       setToppings(
-        toppings.map((t) => (t.id === id ? { ...t, amount: t.amount - 1 } : t)),
+        toppings.map((t) =>
+          t.id === id
+            ? { ...t, amount: t.amount - 1, price: t.price - toppingPrice }
+            : t,
+        ),
       );
     }
   };
@@ -32,7 +40,7 @@ export const PizzaToppings = ({ toppings, setToppings }) => {
               <button
                 type="button"
                 className="pizza-card__topping-btn"
-                onClick={() => decreaseTopping(topping.id)}
+                onClick={() => decreaseTopping(topping.id, topping.price)}
               >
                 −
               </button>
@@ -42,7 +50,7 @@ export const PizzaToppings = ({ toppings, setToppings }) => {
               <button
                 type="button"
                 className="pizza-card__topping-btn"
-                onClick={() => increaseTopping(topping.id)}
+                onClick={() => increaseTopping(topping.id, topping.price)}
               >
                 +
               </button>

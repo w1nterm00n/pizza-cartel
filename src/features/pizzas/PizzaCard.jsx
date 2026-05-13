@@ -26,11 +26,11 @@ export const PizzaCard = () => {
   const increasePizza = usePizzaIncrease();
   const dispatch = useDispatch();
   const [toppings, setToppings] = useState([
-    { id: 1, amount: 0 },
-    { id: 2, amount: 0 },
-    { id: 3, amount: 0 },
-    { id: 4, amount: 0 },
-    { id: 5, amount: 0 },
+    { id: 1, amount: 0, price: 0 },
+    { id: 2, amount: 0, price: 0 },
+    { id: 3, amount: 0, price: 0 },
+    { id: 4, amount: 0, price: 0 },
+    { id: 5, amount: 0, price: 0 },
   ]);
   const decreasePizza = (id) => {
     dispatch(pizzaDecrease(id));
@@ -44,7 +44,7 @@ export const PizzaCard = () => {
   if (isError) return <p>Ошибка загрузки пицц</p>;
   if (!pizza) return <h1>No pizza found</h1>;
 
-  const activePrice = getPrice(pizza.price, activeSize);
+  const activePrice = getPrice(pizza.price, activeSize, toppings);
 
   return (
     <div className="pizza-card">

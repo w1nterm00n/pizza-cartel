@@ -1,10 +1,15 @@
-export const getPrice = (defaultPrice, size) => {
+export const getPrice = (defaultPrice, size, toppings = []) => {
+  //берем  массив топпингов
+  console.log(toppings);
+  let price = defaultPrice;
   switch (size) {
-    case 'standart':
-      return defaultPrice;
     case 'mini':
-      return Math.round(defaultPrice * 0.8);
+      price = Math.round(defaultPrice * 0.8);
+      break;
     case 'max':
-      return Math.round(defaultPrice * 1.2);
+      price = Math.round(defaultPrice * 1.2);
+      break;
   }
+  let toppingsPrice = toppings.reduce((sum, item) => sum + item.price, 0);
+  return price + toppingsPrice;
 };
