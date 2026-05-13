@@ -1,4 +1,5 @@
 import { pizzaDeleted, pizzaDecrease } from './cartSlice';
+import { CartToppings } from './CartToppings';
 import { usePizzaIncrease } from './usePizzaIncrease';
 import { useDispatch } from 'react-redux';
 
@@ -32,7 +33,9 @@ export const CartItem = ({ pizza }) => {
             <div key={option.size} className="cart-item__option">
               <div className="cart-item__option-info">
                 <span className="cart-item__details-size">{option.size}</span>
-                <span className="cart-item__details-dough">Без изменений</span>
+                <span className="cart-item__details-dough">
+                  <CartToppings toppings={option.toppings} />
+                </span>
                 <span className="cart-item__details-mods">Без изменений</span>
               </div>
               <span className="cart-item__option-price">${option.price}</span>
