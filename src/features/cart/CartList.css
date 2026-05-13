@@ -75,14 +75,29 @@
 
 .cart-item__option {
   display: flex;
-  flex-direction: column;
-  gap: 2px;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
 }
 
 .cart-item__option + .cart-item__option {
   border-top: 1px dashed #c8b99a;
   padding-top: 4px;
   margin-top: 4px;
+}
+
+.cart-item__option-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.cart-item__option-price {
+  font-size: 20px;
+  font-weight: 800;
+  color: #1a0f07;
+  white-space: nowrap;
 }
 
 .cart-item__details-dough {
