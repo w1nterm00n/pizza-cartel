@@ -7,6 +7,7 @@ import { pizzaDecrease } from '../cart/cartSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { PizzaToppings } from './PizzaToppings';
 import { usePizzaIncrease } from '../cart/usePizzaIncrease';
+import { getPrice } from '../../utils/pizzaPrice';
 
 const STUB_SIZES = [
   { label: '25 см', hint: '', value: 'mini' },
@@ -32,9 +33,12 @@ export const PizzaCard = () => {
   const pizzaItem = cart.find((item) => item.pizzaId == id);
 
   const { data: pizza, isLoading, isError } = usePizzaDetailQuery({ id: id });
+
   if (isLoading) return <p>Загрузка...</p>;
   if (isError) return <p>Ошибка загрузки пицц</p>;
   if (!pizza) return <h1>No pizza found</h1>;
+
+  const activePrice = getPrice(pizza.price, activeSize);
 
   return (
     <div className="pizza-card">
@@ -78,7 +82,7 @@ export const PizzaCard = () => {
       <div>
         <span className="pizza-card__badge">{pizza.category}</span>
         <h1 className="pizza-card__name">{pizza.name}</h1>
-        <p className="pizza-card__price">${pizza.price}</p>
+        <p className="pizza-card__price">${activePrice}</p>
         <hr className="pizza-card__divider" />
         <p className="pizza-card__description">{pizza.description}</p>
         <hr className="pizza-card__divider" />

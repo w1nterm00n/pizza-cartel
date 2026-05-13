@@ -1,5 +1,6 @@
 import { useDispatch } from 'react-redux';
 import { pizzaIncrease } from './cartSlice';
+import { getPrice } from '../../utils/pizzaPrice';
 
 export const usePizzaIncrease = () => {
   const dispatch = useDispatch();
@@ -10,6 +11,7 @@ export const usePizzaIncrease = () => {
         options: [
           {
             size,
+            price: getPrice(pizza.price, size),
             ingredients: pizza.ingredients,
             toppings: [],
           },

@@ -1,6 +1,7 @@
 import { useDispatch } from 'react-redux';
 import { pizzaAdded } from './cartSlice';
 import { nanoid } from '@reduxjs/toolkit';
+import { getPrice } from '../../utils/pizzaPrice';
 
 export const useAddToCard = () => {
   const dispatch = useDispatch();
@@ -18,6 +19,7 @@ export const useAddToCard = () => {
         options: [
           {
             size,
+            price: getPrice(pizza.price, size),
             ingredients: pizza.ingredients,
             toppings: [],
           },
