@@ -5,6 +5,7 @@ import { useAddToCard } from '../cart/useAddToCart';
 import { useDispatch, useSelector } from 'react-redux';
 import { pizzaDecrease } from '../cart/cartSlice';
 import { usePizzaIncrease } from '../cart/usePizzaIncrease';
+import { PizzaFilter } from './PizzaFilter';
 
 export const PizzasList = () => {
   const addToCart = useAddToCard();
@@ -21,7 +22,7 @@ export const PizzasList = () => {
 
   return (
     <section className="pizzas-list">
-      <h2>Pizzas</h2>
+      <PizzaFilter />
       <ul>
         {isSuccess &&
           pizzas.map((pizza) => {

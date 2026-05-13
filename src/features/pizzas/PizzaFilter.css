@@ -1,0 +1,72 @@
+.pizza-filter {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  background: #f5edce;
+  border: 2px solid #1a0f07;
+  padding: 16px 24px;
+  margin-bottom: 24px;
+}
+
+.pizza-filter__section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.pizza-filter__divider {
+  width: 2px;
+  align-self: stretch;
+  background: #1a0f07;
+  margin: 0 32px;
+  flex-shrink: 0;
+}
+
+.pizza-filter__label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: #1a0f07;
+}
+
+.pizza-filter__categories {
+  display: flex;
+  gap: 8px;
+}
+
+.pizza-filter__cat-btn {
+  background: none;
+  border: 2px solid #1a0f07;
+  padding: 6px 16px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  cursor: pointer;
+  color: #1a0f07;
+}
+
+.pizza-filter__cat-btn--active {
+  background: #8b1c1c;
+  border-color: #8b1c1c;
+  color: #fff;
+}
+
+.pizza-filter__cat-btn:hover:not(.pizza-filter__cat-btn--active) {
+  background: #1a0f07;
+  color: #f5edce;
+}
+
+.pizza-filter__sort {
+  background: #f5edce;
+  border: 2px solid #1a0f07;
+  padding: 6px 36px 6px 12px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #1a0f07;
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%231a0f07' stroke-width='2' fill='none'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+}
