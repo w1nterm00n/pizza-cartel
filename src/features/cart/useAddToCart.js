@@ -19,7 +19,7 @@ export const useAddToCard = () => {
           {
             size,
             ingredients: pizza.ingredients,
-            dops: [],
+            toppings: [],
           },
         ],
       }),

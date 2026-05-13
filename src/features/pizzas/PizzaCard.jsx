@@ -3,8 +3,10 @@ import { useParams } from 'react-router-dom';
 import './PizzaCard.css';
 import { usePizzaDetailQuery } from '../../app/api';
 import { useAddToCard } from '../cart/useAddToCart';
-import { pizzaDecrease, pizzaIncrease } from '../cart/cartSlice';
+import { pizzaDecrease } from '../cart/cartSlice';
 import { useDispatch, useSelector } from 'react-redux';
+import { PizzaToppings } from './PizzaToppings';
+import { usePizzaIncrease } from '../cart/usePizzaIncrease';
 
 const STUB_SIZES = [
   { label: '25 см', hint: '', value: 'mini' },
@@ -16,33 +18,13 @@ const STUB_SIZES = [
   { label: '35 см', hint: '', value: 'max' },
 ];
 
-const STUB_TOPPINGS = [
-  { id: 1, icon: '🧀', name: 'Доп. сыр', amount: 0, price: 1.5 },
-  { id: 2, icon: '🌶', name: 'Халапеньо', amount: 0, price: 1.0 },
-  { id: 3, icon: '🍖', name: 'Салями', amount: 0, price: 1.5 },
-  { id: 4, icon: '🧅', name: 'Лук', amount: 0, price: 0.5 },
-  { id: 5, icon: '🌶', name: 'Чили', amount: 0, price: 0.75 },
-];
-
 export const PizzaCard = () => {
   const { id } = useParams();
   const addToCart = useAddToCard();
   const [activeSize, setActiveSize] = useState('standart');
+  const increasePizza = usePizzaIncrease();
   const dispatch = useDispatch();
-  const increasePizza = (id) => {
-    dispatch(
-      pizzaIncrease({
-        id: id,
-        options: [
-          {
-            size: activeSize,
-            ingredients: pizza.ingredients,
-            dops: [],
-          },
-        ],
-      }),
-    );
-  };
+
   const decreasePizza = (id) => {
     dispatch(pizzaDecrease(id));
   };
@@ -77,7 +59,7 @@ export const PizzaCard = () => {
             <button
               type="button"
               className="pizza-card__qty-btn"
-              onClick={() => increasePizza(pizza.id)}
+              onClick={() => increasePizza(pizza, activeSize)}
             >
               +
             </button>
@@ -126,29 +108,7 @@ export const PizzaCard = () => {
         </div>
         <p className="pizza-card__size-hint">{activeSize.hint}</p>
         <hr className="pizza-card__panel-divider" />
-        <p className="pizza-card__panel-title">Настройте состав</p>
-        <ul className="pizza-card__toppings">
-          {STUB_TOPPINGS.map((topping) => (
-            <li key={topping.id} className="pizza-card__topping">
-              <span className="pizza-card__topping-icon">{topping.icon}</span>
-              <span className="pizza-card__topping-name">{topping.name}</span>
-              <div className="pizza-card__topping-qty">
-                <button type="button" className="pizza-card__topping-btn">
-                  −
-                </button>
-                <span className="pizza-card__topping-count">
-                  {topping.amount}
-                </span>
-                <button type="button" className="pizza-card__topping-btn">
-                  +
-                </button>
-              </div>
-              <span className="pizza-card__topping-price">
-                ${topping.price.toFixed(2)}
-              </span>
-            </li>
-          ))}
-        </ul>
+        <PizzaToppings />
       </div>
     </div>
   );

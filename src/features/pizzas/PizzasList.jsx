@@ -3,27 +3,16 @@ import { Link } from 'react-router-dom';
 import { usePizzaListQuery } from '../../app/api';
 import { useAddToCard } from '../cart/useAddToCart';
 import { useDispatch, useSelector } from 'react-redux';
-import { pizzaDecrease, pizzaIncrease } from '../cart/cartSlice';
+import { pizzaDecrease } from '../cart/cartSlice';
+import { usePizzaIncrease } from '../cart/usePizzaIncrease';
 
 export const PizzasList = () => {
   const addToCart = useAddToCard();
+  const increasePizza = usePizzaIncrease();
   const cart = useSelector((state) => state.cart);
   const { data: pizzas, isLoading, isError, isSuccess } = usePizzaListQuery();
+
   const dispatch = useDispatch();
-  const increasePizza = (id, ingredients) => {
-    dispatch(
-      pizzaIncrease({
-        id: id,
-        options: [
-          {
-            size: 'standart',
-            ingredients: ingredients,
-            dops: [],
-          },
-        ],
-      }),
-    );
-  };
   const decreasePizza = (id) => {
     dispatch(pizzaDecrease(id));
   };
@@ -70,9 +59,7 @@ export const PizzasList = () => {
                       <button
                         type="button"
                         className="pizza-card__qty-btn"
-                        onClick={() =>
-                          increasePizza(pizza.id, pizza.ingredients)
-                        }
+                        onClick={() => increasePizza(pizza)}
                       >
                         +
                       </button>

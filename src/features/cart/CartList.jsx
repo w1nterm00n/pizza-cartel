@@ -1,11 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import './CartList.css';
-import {
-  pizzaDeleted,
-  pizzaDecrease,
-  pizzaIncrease,
-  cartCleared,
-} from './cartSlice';
+import { pizzaDeleted, pizzaDecrease, cartCleared } from './cartSlice';
+import { usePizzaIncrease } from './usePizzaIncrease';
 export const CartList = () => {
   const pizzas = useSelector((state) => state.cart);
   console.log(pizzas); //
@@ -13,26 +9,13 @@ export const CartList = () => {
   const deletePizza = (id) => {
     dispatch(pizzaDeleted(id)); //pizzaId
   };
-  const increasePizza = (id, ingredients) => {
-    dispatch(
-      pizzaIncrease({
-        id: id,
-        options: [
-          {
-            size: 'standart',
-            ingredients: ingredients,
-            dops: [],
-          },
-        ],
-      }),
-    );
-  };
   const decreasePizza = (id) => {
     dispatch(pizzaDecrease(id));
   };
   const clearCart = () => {
     dispatch(cartCleared());
   };
+  const increasePizza = usePizzaIncrease();
 
   return (
     <section>
@@ -81,9 +64,7 @@ export const CartList = () => {
                 <span className="cart-item__qty-count">{pizza.amount}</span>
                 <button
                   type="button"
-                  onClick={() =>
-                    increasePizza(pizza.pizzaId, pizza.ingredients)
-                  }
+                  onClick={() => increasePizza(pizza)}
                   className="cart-item__qty-btn"
                 >
                   +
