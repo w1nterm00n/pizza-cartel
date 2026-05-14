@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import './PizzaCard.css';
 import { usePizzaDetailQuery } from '../../app/api';
@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { PizzaToppings } from './PizzaToppings';
 import { usePizzaIncrease } from '../cart/usePizzaIncrease';
 import { getPrice } from '../../utils/pizzaPrice';
+import { PizzaIngredients } from './PizzaIngredients';
 
 const STUB_SIZES = [
   { label: '25 см', hint: '', value: 'mini' },
@@ -32,13 +33,25 @@ export const PizzaCard = () => {
     { id: 4, amount: 0, price: 0 },
     { id: 5, amount: 0, price: 0 },
   ]);
+  const [ingredients, setIngredients] = useState([]);
   const decreasePizza = (id) => {
     dispatch(pizzaDecrease(id));
   };
   const cart = useSelector((state) => state.cart);
   const pizzaItem = cart.find((item) => item.pizzaId == id);
 
-  const { data: pizza, isLoading, isError } = usePizzaDetailQuery({ id: id });
+  const {
+    data: pizza,
+    isLoading,
+    isError,
+    isSuccess,
+  } = usePizzaDetailQuery({ id: id });
+
+  useEffect(() => {
+    if (pizza) {
+      setIngredients(pizza.ingredients);
+    }
+  }, [pizza]);
 
   if (isLoading) return <p>Загрузка...</p>;
   if (isError) return <p>Ошибка загрузки пицц</p>;
@@ -69,7 +82,9 @@ export const PizzaCard = () => {
             <button
               type="button"
               className="pizza-card__qty-btn"
-              onClick={() => increasePizza(pizza, activeSize, toppings)}
+              onClick={() =>
+                increasePizza(pizza, activeSize, toppings, ingredients)
+              }
             >
               +
             </button>
@@ -77,7 +92,7 @@ export const PizzaCard = () => {
           <button
             type="button"
             className="pizza-card__add-btn"
-            onClick={() => addToCart(pizza, activeSize, toppings)}
+            onClick={() => addToCart(pizza, activeSize, toppings, ingredients)}
           >
             Добавить в корзину
           </button>
@@ -93,11 +108,12 @@ export const PizzaCard = () => {
         <p className="pizza-card__description">{pizza.description}</p>
         <hr className="pizza-card__divider" />
         <p className="pizza-card__ingredients-title">Ингредиенты</p>
-        <ul className="pizza-card__ingredients">
-          {pizza.ingredients.map((ingredient) => (
-            <li key={ingredient}>{ingredient}</li>
-          ))}
-        </ul>
+        <span>Состав — уберите лишнее:</span>
+        <PizzaIngredients
+          defaultIngredients={pizza.ingredients}
+          ingredients={ingredients}
+          setIngredients={setIngredients}
+        />
       </div>
 
       {/* RIGHT */}

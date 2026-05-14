@@ -4,7 +4,12 @@ import { getPrice } from '../../utils/pizzaPrice';
 
 export const usePizzaIncrease = () => {
   const dispatch = useDispatch();
-  return (pizza, size = 'standart', toppings = []) =>
+  return (
+    pizza,
+    size = 'standart',
+    toppings = [],
+    ingredients = pizza.ingredients,
+  ) =>
     dispatch(
       pizzaIncrease({
         id: pizza.pizzaId ?? pizza.id,
@@ -13,7 +18,7 @@ export const usePizzaIncrease = () => {
           {
             size,
             price: getPrice(pizza.price, size, toppings),
-            ingredients: pizza.ingredients,
+            ingredients,
             toppings,
           },
         ],
