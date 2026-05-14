@@ -26,6 +26,15 @@ const api = createApi({
         return `toppings/${id}/`;
       },
     }),
+    addOrder: build.mutation({
+      query(body) {
+        return {
+          url: 'orders',
+          method: 'POST',
+          body,
+        };
+      },
+    }),
   }),
 });
 
@@ -34,5 +43,6 @@ export const {
   usePizzaDetailQuery,
   useToppingListQuery,
   useToppingDetailQuery,
+  useAddOrderMutation,
 } = api;
 export { api };

@@ -1,6 +1,4 @@
 export const getPrice = (defaultPrice, size, toppings = []) => {
-  //берем  массив топпингов
-  console.log(toppings);
   let price = defaultPrice;
   switch (size) {
     case 'mini':
