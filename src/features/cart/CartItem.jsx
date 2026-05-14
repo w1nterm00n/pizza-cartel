@@ -1,3 +1,4 @@
+import { CartIngredients } from './CartIngredients';
 import { pizzaDeleted, pizzaDecrease } from './cartSlice';
 import { CartToppings } from './CartToppings';
 import { usePizzaIncrease } from './usePizzaIncrease';
@@ -36,7 +37,9 @@ export const CartItem = ({ pizza }) => {
                 <span className="cart-item__details-dough">
                   <CartToppings toppings={option.toppings} />
                 </span>
-                <span className="cart-item__details-mods">Без изменений</span>
+                <span className="cart-item__details-mods">
+                  <CartIngredients ingredients={option.ingredients} />
+                </span>
               </div>
               <span className="cart-item__option-price">${option.price}</span>
             </div>
