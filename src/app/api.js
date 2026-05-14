@@ -35,6 +35,11 @@ const api = createApi({
         };
       },
     }),
+    orderList: build.query({
+      query() {
+        return 'orders';
+      },
+    }),
   }),
 });
 
@@ -44,5 +49,6 @@ export const {
   useToppingListQuery,
   useToppingDetailQuery,
   useAddOrderMutation,
+  useOrderListQuery,
 } = api;
 export { api };

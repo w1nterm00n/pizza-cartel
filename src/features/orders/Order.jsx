@@ -17,17 +17,35 @@ export const Order = ({ order }) => {
             <div className="order__item-img" />
             <div className="order__item-info">
               <span className="order__item-name">{item.name}</span>
-              <div className="order__item-tags">
-                <span className="order__tag">{item.size}</span>
-                {item.toppingsCount > 0 && (
-                  <span className="order__tag">
-                    +{item.toppingsCount}{' '}
-                    {item.toppingsCount === 1 ? 'топпинг' : 'топпинга'}
-                  </span>
-                )}
-              </div>
+
+              {item.options.map((option) => (
+                <div className="order__item-tags">
+                  <span className="order__tag">{option.size}</span>
+                  <span className="order__item-price">${option.price}</span>
+                  {option.toppings.length > 0 && (
+                    <span className="order__tag">
+                      {option.toppings.filter((t) => t.amount > 0).length > 0 &&
+                        (() => {
+                          const totalAmount = option.toppings.reduce(
+                            (sum, t) => sum + t.amount,
+                            0,
+                          );
+                          const totalPrice = option.toppings.reduce(
+                            (sum, t) => sum + t.price * t.amount,
+                            0,
+                          );
+                          return (
+                            <span className="order__tag">
+                              +{totalAmount} топпинг(а) — $
+                              {totalPrice.toFixed(2)}
+                            </span>
+                          );
+                        })()}
+                    </span>
+                  )}
+                </div>
+              ))}
             </div>
-            <span className="order__item-price">${item.price}</span>
           </div>
         ))}
       </div>
