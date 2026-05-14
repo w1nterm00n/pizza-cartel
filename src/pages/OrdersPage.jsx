@@ -4,7 +4,14 @@ import { Order } from '../features/orders/Order';
 //вывести их
 
 export const OrdersPage = () => {
-  const { data: orders, isLoading, isError, isSuccess } = useOrderListQuery();
+  const {
+    data: orders,
+    isLoading,
+    isError,
+    isSuccess,
+  } = useOrderListQuery(undefined, {
+    refetchOnMountOrArgChange: true,
+  });
 
   if (isSuccess) {
     console.log('ORDERS ', orders);
@@ -16,7 +23,9 @@ export const OrdersPage = () => {
     <div>
       <h1>Отображение заказов</h1>
       {isSuccess &&
-        orders.map((order) => <Order order={order} key={order.id} />)}
+        [...orders]
+          .reverse()
+          .map((order) => <Order order={order} key={order.id} />)}
     </div>
   );
 };

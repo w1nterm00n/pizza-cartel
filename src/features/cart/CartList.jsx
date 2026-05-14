@@ -26,6 +26,11 @@ export const CartList = () => {
     dispatch(cartCleared());
   };
 
+  const handleCreateOrderClick = (pizzas, totalPrice) => {
+    createOrder(pizzas, totalPrice, addOrderToApi);
+    clearCart();
+  };
+
   return (
     <section>
       <h2>Содержимое корзины</h2>
@@ -43,7 +48,7 @@ export const CartList = () => {
 
       <button
         type="button"
-        onClick={() => createOrder(pizzas, totalPrice, addOrderToApi)}
+        onClick={() => handleCreateOrderClick(pizzas, totalPrice)}
       >
         СДЕЛАТЬ ЗАКАЗ
       </button>
