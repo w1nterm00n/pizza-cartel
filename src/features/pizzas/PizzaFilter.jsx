@@ -1,9 +1,19 @@
 import './PizzaFilter.css';
 
-const CATEGORIES = ['ВСЕ', 'КЛАССИКА', 'ВЕГАН', 'ОСТРОЕ'];
+const CATEGORIES = ['all', 'classic', 'vegan', 'hot'];
 const SORT_OPTIONS = ['По популярности', 'По цене', 'По названию'];
 
-export const PizzaFilter = () => {
+const chooseCategory = (category, allPizzas, setPizzas) => {
+  if (category === 'all') {
+    setPizzas(allPizzas);
+    return;
+  }
+  let newArr = allPizzas.filter((pizza) => pizza.category == category);
+  setPizzas(newArr);
+  return;
+};
+
+export const PizzaFilter = ({ setPizzas, allPizzas }) => {
   return (
     <div className="pizza-filter">
       <div className="pizza-filter__section">
@@ -14,6 +24,7 @@ export const PizzaFilter = () => {
               key={cat}
               type="button"
               className={`pizza-filter__cat-btn${i === 0 ? ' pizza-filter__cat-btn--active' : ''}`}
+              onClick={() => chooseCategory(cat, allPizzas, setPizzas)}
             >
               {cat}
             </button>
