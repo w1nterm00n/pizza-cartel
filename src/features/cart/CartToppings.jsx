@@ -3,35 +3,26 @@ import { useToppingListQuery } from '../../app/api';
 export const CartToppings = ({ toppings }) => {
   const { data: API_TOPPINGS, isLoading, isError } = useToppingListQuery();
 
-  if (isLoading) return <p>Загрузка...</p>;
-  if (isError) return <p>Ошибка загрузки топпингов</p>;
+  if (isLoading || isError) return null;
 
-  const toppingsArr = toppings
-    .filter((item) => item.amount > 0)
-    .map((item) => {
-      const apiTopping = API_TOPPINGS.find((t) => t.id === item.id);
-      return {
-        id: item.id,
-        name: apiTopping.name,
-        icon: apiTopping.icon,
-        amount: item.amount,
-        price: apiTopping.price,
-      };
-    });
+  const active = toppings
+    ?.filter((t) => t.amount > 0)
+    .map((t) => {
+      const api = API_TOPPINGS.find((a) => a.id === t.id);
+      return api ? { ...t, name: api.name, unitPrice: api.price } : null;
+    })
+    .filter(Boolean) ?? [];
 
-  if (toppingsArr.length === 0) return <p>Топпинги: Без добавок</p>;
+  if (active.length === 0) return null;
 
   return (
-    <div>
-      <p>Toppings</p>
-      <ul>
-        {toppingsArr.map((topping) => (
-          <li key={topping.id}>
-            {topping.icon} {topping.name}: {topping.amount} +{' '}
-            {topping.amount * topping.price}$
-          </li>
-        ))}
-      </ul>
+    <div className="pcc-item__toppings">
+      {active.map((t, i) => (
+        <span key={t.id}>
+          {i > 0 && ' · '}
+          + {t.name}: {t.amount} × {t.unitPrice} ₽
+        </span>
+      ))}
     </div>
   );
 };
