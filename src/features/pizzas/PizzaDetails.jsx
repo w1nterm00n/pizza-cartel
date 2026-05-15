@@ -1,60 +1,67 @@
+import './PizzaDetails.css';
 import { useDispatch } from 'react-redux';
 import { useAddToCard } from '../cart/useAddToCart';
 import { usePizzaIncrease } from '../cart/usePizzaIncrease';
 import { pizzaDecrease } from '../cart/cartSlice';
 import { Link } from 'react-router-dom';
 
+const BADGE_CLASS = {
+  classic: 'pc-card__badge--classic',
+  vegan:   'pc-card__badge--vegan',
+  hot:     'pc-card__badge--hot',
+};
+
+const BADGE_LABEL = {
+  classic: 'КЛАССИКА',
+  vegan:   'ВЕГАН',
+  hot:     'ОСТРОЕ',
+};
+
 export const PizzaDetails = ({ pizza, amount }) => {
   const addToCart = useAddToCard();
   const increasePizza = usePizzaIncrease();
   const dispatch = useDispatch();
-  const decreasePizza = (id) => {
-    dispatch(pizzaDecrease(id));
-  };
+
+  const badgeClass = BADGE_CLASS[pizza.category] ?? 'pc-card__badge--default';
+  const badgeLabel = BADGE_LABEL[pizza.category] ?? pizza.category.toUpperCase();
+
   return (
-    <li key={pizza.id}>
-      <article>
-        <img
-          className="pizza-card__image"
-          src={pizza.imageUrl}
-          alt={pizza.name}
-        />
-        <div className="pizza-card__body">
-          <span className="pizza-card__badge">{pizza.category}</span>
-          <h3>{pizza.name}</h3>
-          <Link to={`/pizza/${pizza.id}`}>{pizza.name}</Link>
-          <p className="pizza-card__description">{pizza.description}</p>
+    <li>
+      <div className="pc-card">
+        <div className="pc-card__badge-row">
+          <span className={`pc-card__badge ${badgeClass}`}>{badgeLabel}</span>
         </div>
-        <hr className="pizza-card__divider" />
-        <p className="pizza-card__price">${pizza.price}</p>
-        <div className="pizza-card__actions">
-          <span className="pizza-card__qty-label">Количество</span>
-          <div className="pizza-card__qty">
-            <button
-              type="button"
-              className="pizza-card__qty-btn"
-              onClick={() => decreasePizza(pizza.id)}
-            >
-              −
-            </button>
-            <span className="pizza-card__qty-count">{amount}</span>
-            <button
-              type="button"
-              className="pizza-card__qty-btn"
-              onClick={() => increasePizza(pizza)}
-            >
-              +
-            </button>
+
+        <img className="pc-card__img" src={pizza.imageUrl} alt={pizza.name} />
+
+        <Link className="pc-card__name" to={`/pizza/${pizza.id}`}>
+          {pizza.name.toUpperCase()}
+        </Link>
+        <p className="pc-card__desc">{pizza.description}</p>
+
+        <div className="pc-card__foot">
+          <div className="pc-card__price">
+            {pizza.price} ₽
+            <small>ОТ · 30 СМ</small>
           </div>
-          <button
-            type="button"
-            className="pizza-card__add-btn"
-            onClick={() => addToCart(pizza)}
-          >
-            Добавить в корзину
-          </button>
+          <div className="pc-card__qty">
+            <button type="button" onClick={() => dispatch(pizzaDecrease(pizza.id))}>−</button>
+            <span className="pc-card__qty-count">{amount}</span>
+            <button type="button" onClick={() => increasePizza(pizza)}>+</button>
+          </div>
         </div>
-      </article>
+
+        <button
+          type="button"
+          className="pc-card__add-btn"
+          onClick={() => addToCart(pizza)}
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" width="14" height="14">
+            <path d="M12 5v14M5 12h14"/>
+          </svg>
+          ДОБАВИТЬ В КОРЗИНУ
+        </button>
+      </div>
     </li>
   );
 };

@@ -1,10 +1,16 @@
 import './PizzaFilter.css';
 import { useState } from 'react';
 
-const CATEGORIES = ['all', 'classic', 'vegan', 'hot'];
+const CATEGORIES = [
+  { id: 'all',     label: 'Все',      dot: '#1A1208' },
+  { id: 'classic', label: 'Классика', dot: '#C8102E' },
+  { id: 'vegan',   label: 'Веган',    dot: '#2E7D3A' },
+  { id: 'hot',     label: 'Острое',   dot: '#F2B829' },
+];
+
 const SORT_OPTIONS = [
   { text: 'По возрастанию цены', criteria: 'priceIncrease' },
-  { text: 'По уменьшению цены', criteria: 'priceDecrease' },
+  { text: 'По уменьшению цены',  criteria: 'priceDecrease' },
 ];
 
 const chooseCategory = (category, allPizzas, setPizzas) => {
@@ -14,7 +20,6 @@ const chooseCategory = (category, allPizzas, setPizzas) => {
   }
   let newArr = allPizzas.filter((pizza) => pizza.category == category);
   setPizzas(newArr);
-  return;
 };
 
 const chooseOption = (value, setPizzas, pizzas) => {
@@ -32,41 +37,34 @@ export const PizzaFilter = ({ setPizzas, allPizzas, pizzas }) => {
   const [activeCategory, setActiveCategory] = useState('all');
 
   return (
-    <div className="pizza-filter">
-      <div className="pizza-filter__section">
-        <span className="pizza-filter__label">КАТЕГОРИИ</span>
-        <div className="pizza-filter__categories">
-          {CATEGORIES.map((cat) => (
-            <button
-              key={cat}
-              type="button"
-              className={`pizza-filter__cat-btn${cat === activeCategory ? ' pizza-filter__cat-btn--active' : ''}`}
-              onClick={() => {
-                setActiveCategory(cat);
-                chooseCategory(cat, allPizzas, setPizzas);
-              }}
-            >
-              {cat}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      <div className="pizza-filter__divider" />
-
-      <div className="pizza-filter__section">
-        <span className="pizza-filter__label">СОРТИРОВКА</span>
-        <select
-          className="pizza-filter__sort"
-          onChange={(e) => chooseOption(e.target.value, setPizzas, pizzas)}
+    <div className="pc-toolbar">
+      {CATEGORIES.map((cat) => (
+        <button
+          key={cat.id}
+          type="button"
+          className={`pc-chip${cat.id === activeCategory ? ' pc-chip--active' : ''}`}
+          onClick={() => {
+            setActiveCategory(cat.id);
+            chooseCategory(cat.id, allPizzas, setPizzas);
+          }}
         >
-          {SORT_OPTIONS.map((opt) => (
-            <option key={opt.criteria} value={opt.criteria}>
-              {opt.text}
-            </option>
-          ))}
-        </select>
-      </div>
+          <span className="pc-chip__dot" style={{ background: cat.dot }} />
+          {cat.label}
+        </button>
+      ))}
+
+      <div className="pc-toolbar__sep" />
+
+      <select
+        className="pc-sort"
+        onChange={(e) => chooseOption(e.target.value, setPizzas, pizzas)}
+      >
+        {SORT_OPTIONS.map((opt) => (
+          <option key={opt.criteria} value={opt.criteria}>
+            {opt.text.toUpperCase()}
+          </option>
+        ))}
+      </select>
     </div>
   );
 };

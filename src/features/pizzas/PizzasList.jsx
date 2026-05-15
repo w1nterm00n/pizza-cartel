@@ -19,13 +19,20 @@ export const PizzasList = () => {
 
   return (
     <section className="pizzas-list">
+      <div className="pc-section-head">
+        <div className="pc-section-head__title">МЕНЮ</div>
+        <div className="pc-section-head__flair">— прямо из печи</div>
+        <div className="pc-section-head__count">{pizzas.length} позиций</div>
+      </div>
+
       <PizzaFilter setPizzas={setPizzas} allPizzas={data} pizzas={pizzas} />
+
       <ul>
         {isSuccess &&
           pizzas.map((pizza) => {
             const cartItem = cart.find((item) => item.pizzaId === pizza.id);
             const amount = cartItem?.amount ?? 0;
-            return <PizzaDetails pizza={pizza} amount={amount} />;
+            return <PizzaDetails key={pizza.id} pizza={pizza} amount={amount} />;
           })}
       </ul>
     </section>

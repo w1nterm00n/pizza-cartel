@@ -1,0 +1,165 @@
+.pc-card {
+  background: var(--pc-bone);
+  border: 2px solid var(--pc-ink);
+  box-shadow: 5px 5px 0 var(--pc-ink);
+  padding: 20px 18px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  transition: transform 0.08s, box-shadow 0.08s;
+}
+.pc-card:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 7px 7px 0 var(--pc-ink);
+}
+
+/* badge + heart row — pinned to top corners */
+.pc-card__badge-row {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  right: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.pc-card__badge {
+  font-family: 'Bungee', sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  padding: 4px 10px;
+  border: 1.5px solid var(--pc-ink);
+  border-radius: 999px;
+}
+.pc-card__badge--classic { background: #C8102E; color: #FFF6E3; }
+.pc-card__badge--vegan   { background: #2E7D3A; color: #FFF6E3; }
+.pc-card__badge--hot     { background: #F2B829; color: #1A1208; }
+.pc-card__badge--default { background: var(--pc-ink); color: var(--pc-cream); }
+
+/* pizza image */
+.pc-card__img {
+  width: 160px;
+  height: 160px;
+  cursor: pointer;
+  transition: transform 0.15s;
+}
+.pc-card:hover .pc-card__img {
+  transform: rotate(8deg);
+}
+
+/* name */
+.pc-card__name {
+  font-family: var(--pc-font-display);
+  font-size: 22px;
+  text-transform: uppercase;
+  color: var(--pc-ink);
+  line-height: 1;
+  margin-top: 12px;
+  text-decoration: none;
+  display: block;
+}
+.pc-card__name:hover { color: var(--pc-red); }
+
+/* description */
+.pc-card__desc {
+  font-family: var(--pc-font-serif);
+  font-style: italic;
+  font-size: 14px;
+  color: var(--pc-ink-soft);
+  margin-top: 6px;
+  min-height: 36px;
+}
+
+/* foot: price left, stepper right */
+.pc-card__foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-top: 14px;
+  border-top: 1.5px dashed var(--pc-stone-soft);
+  padding-top: 14px;
+}
+
+.pc-card__price {
+  font-family: var(--pc-font-display);
+  font-size: 28px;
+  color: var(--pc-red);
+  line-height: 1;
+}
+.pc-card__price small {
+  font-family: var(--pc-font-mono);
+  font-size: 11px;
+  color: var(--pc-ink-soft);
+  display: block;
+  margin-top: 2px;
+  letter-spacing: 0.05em;
+}
+
+/* qty stepper */
+.pc-card__qty {
+  display: inline-flex;
+  align-items: center;
+  background: var(--pc-bone);
+  border: 1.5px solid var(--pc-ink);
+  border-radius: 999px;
+  overflow: hidden;
+}
+.pc-card__qty button {
+  all: unset;
+  cursor: pointer;
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  font-family: var(--pc-font-display);
+  font-size: 18px;
+  color: var(--pc-ink);
+}
+.pc-card__qty button:hover {
+  background: var(--pc-red);
+  color: var(--pc-cream);
+}
+.pc-card__qty-count {
+  font-family: var(--pc-font-display);
+  font-size: 16px;
+  min-width: 28px;
+  text-align: center;
+}
+
+/* add to cart — full-width pill */
+.pc-card__add-btn {
+  all: unset;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 10px;
+  padding: 10px;
+  box-sizing: border-box;
+  background: var(--pc-ink);
+  color: var(--pc-cream);
+  border: 2px solid var(--pc-ink);
+  border-radius: 999px;
+  font-family: var(--pc-font-display);
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  box-shadow: 3px 3px 0 var(--pc-red);
+  transition: transform 0.08s, box-shadow 0.08s, background 0.08s;
+}
+.pc-card__add-btn:hover {
+  background: var(--pc-red);
+  border-color: var(--pc-ink);
+  transform: translate(-1px, -1px);
+  box-shadow: 5px 5px 0 var(--pc-ink);
+}
+.pc-card__add-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 0 0 0 var(--pc-ink);
+}
