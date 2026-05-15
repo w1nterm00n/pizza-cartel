@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
 import './PizzaCard.css';
+import { useEffect, useState } from 'react';
+import { useParams, Link } from 'react-router-dom';
 import { usePizzaDetailQuery } from '../../app/api';
 import { useAddToCard } from '../cart/useAddToCart';
 import { pizzaDecrease } from '../cart/cartSlice';
@@ -9,16 +9,24 @@ import { PizzaToppings } from './PizzaToppings';
 import { usePizzaIncrease } from '../cart/usePizzaIncrease';
 import { getPrice } from '../../utils/pizzaPrice';
 import { PizzaIngredients } from './PizzaIngredients';
+import pizzaImg from '../../assets/pizza-pie.svg';
 
-const STUB_SIZES = [
-  { label: '25 см', hint: '', value: 'mini' },
-  {
-    label: '30 см',
-    hint: '30 см — оптимально для 2–3 человек',
-    value: 'standart',
-  },
-  { label: '35 см', hint: '', value: 'max' },
+const SIZES = [
+  { label: '25 СМ', dim: 'mini', value: 'mini' },
+  { label: '30 СМ', dim: 'standart', value: 'standart' },
+  { label: '35 СМ', dim: 'max', value: 'max' },
 ];
+
+const BADGE_CLASS = {
+  classic: 'pcd-badge--classic',
+  vegan: 'pcd-badge--vegan',
+  hot: 'pcd-badge--hot',
+};
+const BADGE_LABEL = {
+  classic: 'КЛАССИКА',
+  vegan: 'ВЕГАН',
+  hot: 'ОСТРОЕ',
+};
 
 export const PizzaCard = () => {
   const { id } = useParams();
@@ -34,54 +42,119 @@ export const PizzaCard = () => {
     { id: 5, amount: 0, price: 0 },
   ]);
   const [ingredients, setIngredients] = useState([]);
-  const decreasePizza = (id) => {
-    dispatch(pizzaDecrease(id));
-  };
   const cart = useSelector((state) => state.cart);
   const pizzaItem = cart.find((item) => item.pizzaId == id);
 
-  const {
-    data: pizza,
-    isLoading,
-    isError,
-    isSuccess,
-  } = usePizzaDetailQuery({ id: id });
+  const { data: pizza, isLoading, isError } = usePizzaDetailQuery({ id });
 
   useEffect(() => {
-    if (pizza) {
-      setIngredients(pizza.ingredients);
-    }
+    if (pizza) setIngredients(pizza.ingredients);
   }, [pizza]);
 
   if (isLoading) return <p>Загрузка...</p>;
-  if (isError) return <p>Ошибка загрузки пицц</p>;
-  if (!pizza) return <h1>No pizza found</h1>;
+  if (isError) return <p>Ошибка загрузки</p>;
+  if (!pizza) return <h1>Пицца не найдена</h1>;
 
   const activePrice = getPrice(pizza.price, activeSize, toppings);
+  const activeSizeObj = SIZES.find((s) => s.value === activeSize);
+  const badgeClass = BADGE_CLASS[pizza.category] ?? 'pcd-badge--default';
+  const badgeLabel =
+    BADGE_LABEL[pizza.category] ?? pizza.category.toUpperCase();
 
   return (
-    <div className="pizza-card">
-      {/* LEFT */}
+    <div className="pcd-wrap">
+      {/* LEFT: image */}
       <div>
-        <div className="pizza-card__image-box">
-          <img src={pizza.imageUrl} alt={pizza.name} />
+        <Link className="pcd-back" to="/">
+          ← К МЕНЮ
+        </Link>
+        <div className="pcd-imgwrap">
+          <div className="pcd-stamp">
+            {activeSizeObj.label}
+            <br />
+            <small>ВЫБРАНО</small>
+          </div>
+          <div className="pcd-pie-disk pcd-pie-disk--spin">
+            <img src={pizzaImg} alt={pizza.name} />
+          </div>
+          <div className="pcd-thumbs">
+            {SIZES.map((s) => (
+              <div
+                key={s.value}
+                className={`pcd-thumb${activeSize === s.value ? ' pcd-thumb--active' : ''}`}
+                onClick={() => setActiveSize(s.value)}
+              >
+                {s.label.replace(' СМ', '')}
+              </div>
+            ))}
+          </div>
         </div>
-        <div className="pizza-card__actions">
-          <span className="pizza-card__qty-label">Количество</span>
-          <div className="pizza-card__qty">
+      </div>
+
+      {/* RIGHT: info */}
+      <div className="pcd-info">
+        <Link className="pcd-back" to="/">
+          ← К МЕНЮ
+        </Link>
+
+        <div className="pcd-badges">
+          <span className={`pcd-badge ${badgeClass}`}>{badgeLabel}</span>
+          <span className="pcd-badge pcd-badge--light">
+            {activeSizeObj.label}
+          </span>
+        </div>
+
+        <div className="pcd-since">прямо из печи —</div>
+        <div className="pcd-name">{pizza.name.toUpperCase()}</div>
+        <p className="pcd-lede">{pizza.description}</p>
+
+        <div className="pcd-section">
+          <h4>ВЫБЕРИТЕ РАЗМЕР</h4>
+          <div className="pcd-sizes">
+            {SIZES.map((s) => (
+              <button
+                key={s.value}
+                type="button"
+                className={`pcd-size${activeSize === s.value ? ' pcd-size--active' : ''}`}
+                onClick={() => setActiveSize(s.value)}
+              >
+                <div className="pcd-size__label">{s.label}</div>
+                <div className="pcd-size__dim">{s.dim}</div>
+                <div className="pcd-size__price">
+                  {getPrice(pizza.price, s.value, []).toFixed(0)} ₽
+                </div>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className="pcd-section">
+          <h4>СОСТАВ — НАЖМИТЕ, ЧТОБЫ УБРАТЬ</h4>
+          <PizzaIngredients
+            defaultIngredients={pizza.ingredients}
+            ingredients={ingredients}
+            setIngredients={setIngredients}
+          />
+        </div>
+
+        <div className="pcd-section">
+          <h4>ДОБАВИТЬ ТОППИНГИ</h4>
+          <PizzaToppings toppings={toppings} setToppings={setToppings} />
+        </div>
+
+        <div className="pcd-cart-bar">
+          <div className="pcd-cart-qty">
             <button
               type="button"
-              className="pizza-card__qty-btn"
-              onClick={() => decreasePizza(pizza.id)}
+              onClick={() => dispatch(pizzaDecrease(pizza.id))}
             >
               −
             </button>
-            <span className="pizza-card__qty-count">
-              {pizzaItem ? pizzaItem.amount : '0'}
+            <span className="pcd-cart-qty__count">
+              {pizzaItem ? pizzaItem.amount : 0}
             </span>
             <button
               type="button"
-              className="pizza-card__qty-btn"
               onClick={() =>
                 increasePizza(pizza, activeSize, toppings, ingredients)
               }
@@ -89,52 +162,25 @@ export const PizzaCard = () => {
               +
             </button>
           </div>
+          <div className="pcd-total">{activePrice} ₽</div>
           <button
             type="button"
-            className="pizza-card__add-btn"
+            className="pcd-cta"
             onClick={() => addToCart(pizza, activeSize, toppings, ingredients)}
           >
-            Добавить в корзину
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              width="16"
+              height="16"
+            >
+              <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4zM3 6h18M16 10a4 4 0 01-8 0" />
+            </svg>
+            В КОРЗИНУ
           </button>
         </div>
-      </div>
-
-      {/* MIDDLE */}
-      <div>
-        <span className="pizza-card__badge">{pizza.category}</span>
-        <h1 className="pizza-card__name">{pizza.name}</h1>
-        <p className="pizza-card__price">${activePrice}</p>
-        <hr className="pizza-card__divider" />
-        <p className="pizza-card__description">{pizza.description}</p>
-        <hr className="pizza-card__divider" />
-        <p className="pizza-card__ingredients-title">Ингредиенты</p>
-        <span>Состав — уберите лишнее:</span>
-        <PizzaIngredients
-          defaultIngredients={pizza.ingredients}
-          ingredients={ingredients}
-          setIngredients={setIngredients}
-        />
-      </div>
-
-      {/* RIGHT */}
-      <div className="pizza-card__panel">
-        <p className="pizza-card__panel-title">Выберите размер</p>
-        <div className="pizza-card__sizes">
-          {STUB_SIZES.map((size) => (
-            <button
-              key={size.label}
-              type="button"
-              value={size.value}
-              onClick={() => setActiveSize(size.value)}
-              className={`pizza-card__size-btn${size.value == activeSize ? ' pizza-card__size-btn--active' : ''}`}
-            >
-              {size.label}
-            </button>
-          ))}
-        </div>
-        <p className="pizza-card__size-hint">{activeSize.hint}</p>
-        <hr className="pizza-card__panel-divider" />
-        <PizzaToppings toppings={toppings} setToppings={setToppings} />
       </div>
     </div>
   );

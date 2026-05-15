@@ -1,37 +1,39 @@
-import './PizzaIngredients.css';
-
 const toggleIngredient = (ingredient, ingredients, setIngredients) => {
   if (ingredients.includes(ingredient)) {
-    setIngredients(ingredients.filter((i) => i !== ingredient)); //удаляем из массива
+    setIngredients(ingredients.filter((i) => i !== ingredient));
   } else {
-    setIngredients([...ingredients, ingredient]); //добавляем в массив
+    setIngredients([...ingredients, ingredient]);
   }
 };
 
-export const PizzaIngredients = ({
-  defaultIngredients,
-  ingredients,
-  setIngredients,
-}) => {
+export const PizzaIngredients = ({ defaultIngredients, ingredients, setIngredients }) => {
   return (
-    <ul className="ingredients">
+    <div className="pcd-ings">
       {defaultIngredients.map((ingredient) => {
         const isAdded = ingredients?.includes(ingredient) ?? true;
         return (
-          <li key={ingredient}>
-            <button
-              type="button"
-              className={`ingredient${isAdded ? ' ingredient--added' : ' ingredient--removed'}`}
-              onClick={() =>
-                toggleIngredient(ingredient, ingredients, setIngredients)
-              }
+          <div
+            key={ingredient}
+            className={`pcd-ing removable${isAdded ? ' on' : ''}`}
+            onClick={() => toggleIngredient(ingredient, ingredients, setIngredients)}
+          >
+            <div className="pcd-ing__check">
+              {isAdded && (
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+                  <path d="M5 12l5 5L20 7" />
+                </svg>
+              )}
+            </div>
+            <div
+              className="pcd-ing__nm"
+              style={!isAdded ? { textDecoration: 'line-through', color: 'var(--pc-stone-soft)' } : {}}
             >
-              <span className="ingredient__icon">{isAdded ? '✓' : '+'}</span>
-              <span className="ingredient__name">{ingredient}</span>
-            </button>
-          </li>
+              {ingredient}
+            </div>
+            <div className="pcd-ing__px">{isAdded ? 'включено' : 'убрано'}</div>
+          </div>
         );
       })}
-    </ul>
+    </div>
   );
 };

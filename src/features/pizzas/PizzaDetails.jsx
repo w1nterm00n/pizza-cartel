@@ -4,6 +4,7 @@ import { useAddToCard } from '../cart/useAddToCart';
 import { usePizzaIncrease } from '../cart/usePizzaIncrease';
 import { pizzaDecrease } from '../cart/cartSlice';
 import { Link } from 'react-router-dom';
+import pizzaImg from '../../assets/pizza-pie.svg';
 
 const BADGE_CLASS = {
   classic: 'pc-card__badge--classic',
@@ -32,7 +33,9 @@ export const PizzaDetails = ({ pizza, amount }) => {
           <span className={`pc-card__badge ${badgeClass}`}>{badgeLabel}</span>
         </div>
 
-        <img className="pc-card__img" src={pizza.imageUrl} alt={pizza.name} />
+        <Link to={`/pizza/${pizza.id}`}>
+          <img className="pc-card__img" src={pizzaImg} alt={pizza.name} />
+        </Link>
 
         <Link className="pc-card__name" to={`/pizza/${pizza.id}`}>
           {pizza.name.toUpperCase()}
