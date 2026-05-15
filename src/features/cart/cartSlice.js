@@ -1,8 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { loadCartFromLocalStorage } from '../../utils/localStorage';
+
+const initialState = loadCartFromLocalStorage() ?? [];
 
 const cartSlice = createSlice({
   name: 'cart',
-  initialState: [],
+  initialState: initialState,
   reducers: {
     pizzaAdded(state, action) {
       const existing = state.find(
