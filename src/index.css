@@ -1,0 +1,39 @@
+@import url('https://fonts.googleapis.com/css2?family=Bungee&family=Alfa+Slab+One&family=Yellowtail&family=Fraunces:ital,opsz,wght@0,9..144,400;1,9..144,400&family=Libre+Franklin:wght@400;600;700&family=Special+Elite&display=swap');
+
+:root {
+  --pc-red:        #C8102E;
+  --pc-red-deep:   #8E0E22;
+  --pc-cream:      #FFF6E3;
+  --pc-cream-warm: #F5E6C8;
+  --pc-bone:       #FAF1DD;
+  --pc-mustard:    #F2B829;
+  --pc-basil:      #2E7D3A;
+  --pc-ink:        #1A1208;
+  --pc-ink-soft:   #3A2D1F;
+  --pc-stone-soft: #C5B6A0;
+
+  --pc-font-display: 'Alfa Slab One', Georgia, serif;
+  --pc-font-ui:      'Libre Franklin', Arial, sans-serif;
+  --pc-font-serif:   'Fraunces', 'Times New Roman', serif;
+  --pc-font-mono:    'Special Elite', 'Courier New', monospace;
+  --pc-font-script:  'Yellowtail', cursive;
+  --pc-font-marquee: 'Bungee', 'Impact', sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--pc-cream);
+  color: var(--pc-ink);
+  font-family: var(--pc-font-ui);
+  background-image:
+    radial-gradient(circle at 20% 30%, rgba(139,90,43,0.05) 0 2px, transparent 3px),
+    radial-gradient(circle at 70% 60%, rgba(139,90,43,0.04) 0 2px, transparent 3px),
+    radial-gradient(circle at 40% 80%, rgba(139,90,43,0.03) 0 1.5px, transparent 2.5px);
+  background-size: 90px 90px, 110px 110px, 70px 70px;
+}
+
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; cursor: pointer; }

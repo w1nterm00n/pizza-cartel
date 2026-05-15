@@ -1,0 +1,64 @@
+.pc-banner {
+  background: repeating-linear-gradient(135deg, var(--pc-red) 0 28px, var(--pc-cream) 28px 56px);
+  border-bottom: 2px solid var(--pc-ink);
+  border-top: 2px solid var(--pc-ink);
+  padding: 28px 24px;
+  display: flex;
+  justify-content: center;
+}
+
+.pc-banner__card {
+  background: var(--pc-cream);
+  border: 2px solid var(--pc-ink);
+  box-shadow: 6px 6px 0 var(--pc-ink);
+  padding: 28px 40px;
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  max-width: 1100px;
+  width: 100%;
+}
+
+.pc-banner__text {
+  flex: 1;
+}
+
+.pc-banner__since {
+  font-family: var(--pc-font-script);
+  font-size: 22px;
+  color: var(--pc-red);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.pc-banner__title {
+  font-family: var(--pc-font-display);
+  font-size: 56px;
+  line-height: 0.95;
+  text-transform: uppercase;
+  color: var(--pc-ink);
+}
+
+.pc-banner__title span {
+  color: var(--pc-red);
+}
+
+.pc-banner__lede {
+  font-family: var(--pc-font-serif);
+  font-style: italic;
+  font-size: 16px;
+  color: var(--pc-ink-soft);
+  margin-top: 12px;
+  max-width: 480px;
+  line-height: 1.5;
+}
+
+.pc-banner__chef {
+  flex-shrink: 0;
+  filter: drop-shadow(4px 4px 0 var(--pc-ink));
+}
+
+@media (max-width: 700px) {
+  .pc-banner__chef { display: none; }
+  .pc-banner__title { font-size: 36px; }
+}

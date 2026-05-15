@@ -1,9 +1,11 @@
 import { PizzasList } from '../features/pizzas/PizzasList';
+import { MenuBanner } from '../components/MenuBanner';
 
 export const MenuPage = () => {
   return (
     <div>
-      <PizzasList></PizzasList>
+      <MenuBanner />
+      <PizzasList />
     </div>
   );
 };

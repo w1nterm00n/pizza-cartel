@@ -1,0 +1,132 @@
+.pc-strip {
+  background: var(--pc-ink);
+  color: var(--pc-cream);
+  font-family: var(--pc-font-marquee);
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  padding: 8px 24px;
+  border-bottom: 2px solid var(--pc-red);
+  display: flex;
+  gap: 32px;
+  justify-content: center;
+}
+.pc-strip span:first-child { color: var(--pc-mustard); }
+
+.pc-awning {
+  background: repeating-linear-gradient(135deg, var(--pc-red) 0 28px, var(--pc-cream) 28px 56px);
+  height: 14px;
+  border-bottom: 2px solid var(--pc-ink);
+}
+
+.pc-nav {
+  background: var(--pc-cream);
+  border-bottom: 2px solid var(--pc-ink);
+  padding: 14px 32px;
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.pc-nav__brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+.pc-nav__brand-name {
+  font-family: var(--pc-font-display);
+  font-size: 26px;
+  text-transform: uppercase;
+  color: var(--pc-red);
+  line-height: 1;
+}
+.pc-nav__brand-since {
+  font-family: var(--pc-font-script);
+  font-size: 14px;
+  color: var(--pc-ink);
+  margin-top: -2px;
+}
+
+.pc-nav__links {
+  display: flex;
+  gap: 8px;
+  margin-left: 18px;
+}
+.pc-nav__link {
+  font-family: var(--pc-font-ui);
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--pc-ink);
+  padding: 8px 12px;
+  border: 1.5px solid transparent;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+  transition: color 0.1s;
+}
+.pc-nav__link:hover { color: var(--pc-red); }
+.pc-nav__link.active {
+  background: var(--pc-ink);
+  color: var(--pc-cream);
+  border-color: var(--pc-ink);
+}
+
+.pc-nav__badge {
+  background: var(--pc-mustard);
+  color: var(--pc-ink);
+  border-radius: 999px;
+  padding: 0 7px;
+  font-size: 11px;
+  border: 1.5px solid var(--pc-ink);
+  min-width: 20px;
+  text-align: center;
+  font-family: var(--pc-font-ui);
+  font-weight: 700;
+}
+
+.pc-nav__right {
+  margin-left: auto;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+.pc-nav__phone {
+  font-family: var(--pc-font-mono);
+  font-size: 13px;
+  color: var(--pc-ink);
+}
+
+.pc-nav__cart-btn {
+  font-family: var(--pc-font-display);
+  font-size: 14px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--pc-cream);
+  background: var(--pc-red);
+  border: 2px solid var(--pc-ink);
+  padding: 10px 18px;
+  border-radius: 999px;
+  box-shadow: 4px 4px 0 var(--pc-ink);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  transition: transform 0.08s, box-shadow 0.08s;
+}
+.pc-nav__cart-btn:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 6px 6px 0 var(--pc-ink);
+}
+.pc-nav__cart-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 0 0 0 var(--pc-ink);
+}
