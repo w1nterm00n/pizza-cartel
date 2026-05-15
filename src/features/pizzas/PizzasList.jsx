@@ -19,7 +19,7 @@ export const PizzasList = () => {
 
   return (
     <section className="pizzas-list">
-      <PizzaFilter setPizzas={setPizzas} allPizzas={data} />
+      <PizzaFilter setPizzas={setPizzas} allPizzas={data} pizzas={pizzas} />
       <ul>
         {isSuccess &&
           pizzas.map((pizza) => {

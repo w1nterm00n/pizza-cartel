@@ -1,7 +1,11 @@
 import './PizzaFilter.css';
+import { useState } from 'react';
 
 const CATEGORIES = ['all', 'classic', 'vegan', 'hot'];
-const SORT_OPTIONS = ['По популярности', 'По цене', 'По названию'];
+const SORT_OPTIONS = [
+  { text: 'По возрастанию цены', criteria: 'priceIncrease' },
+  { text: 'По уменьшению цены', criteria: 'priceDecrease' },
+];
 
 const chooseCategory = (category, allPizzas, setPizzas) => {
   if (category === 'all') {
@@ -13,18 +17,34 @@ const chooseCategory = (category, allPizzas, setPizzas) => {
   return;
 };
 
-export const PizzaFilter = ({ setPizzas, allPizzas }) => {
+const chooseOption = (value, setPizzas, pizzas) => {
+  let newArr;
+  if (value == 'priceIncrease') {
+    newArr = [...pizzas].sort((a, b) => a.price - b.price);
+  }
+  if (value == 'priceDecrease') {
+    newArr = [...pizzas].sort((a, b) => b.price - a.price);
+  }
+  setPizzas(newArr);
+};
+
+export const PizzaFilter = ({ setPizzas, allPizzas, pizzas }) => {
+  const [activeCategory, setActiveCategory] = useState('all');
+
   return (
     <div className="pizza-filter">
       <div className="pizza-filter__section">
         <span className="pizza-filter__label">КАТЕГОРИИ</span>
         <div className="pizza-filter__categories">
-          {CATEGORIES.map((cat, i) => (
+          {CATEGORIES.map((cat) => (
             <button
               key={cat}
               type="button"
-              className={`pizza-filter__cat-btn${i === 0 ? ' pizza-filter__cat-btn--active' : ''}`}
-              onClick={() => chooseCategory(cat, allPizzas, setPizzas)}
+              className={`pizza-filter__cat-btn${cat === activeCategory ? ' pizza-filter__cat-btn--active' : ''}`}
+              onClick={() => {
+                setActiveCategory(cat);
+                chooseCategory(cat, allPizzas, setPizzas);
+              }}
             >
               {cat}
             </button>
@@ -36,9 +56,14 @@ export const PizzaFilter = ({ setPizzas, allPizzas }) => {
 
       <div className="pizza-filter__section">
         <span className="pizza-filter__label">СОРТИРОВКА</span>
-        <select className="pizza-filter__sort">
+        <select
+          className="pizza-filter__sort"
+          onChange={(e) => chooseOption(e.target.value, setPizzas, pizzas)}
+        >
           {SORT_OPTIONS.map((opt) => (
-            <option key={opt}>{opt}</option>
+            <option key={opt.criteria} value={opt.criteria}>
+              {opt.text}
+            </option>
           ))}
         </select>
       </div>
